@@ -1,26 +1,37 @@
 <script setup>
 import { ref } from "vue";
 
+import image1 from "@/assets/helen0.jpg";
+import image2 from "@/assets/helen1.jpg";
+import image3 from "@/assets/helen2.jpg";
+import image4 from "@/assets/helen3.jpg";
+import image5 from "@/assets/helen4.jpg";
+
 const data = ref([
   {
     key: 0,
-    src: "/src/assets/helen0.jpg",
+    src: image1,
+    // src: "/src/assets/helen0.jpg",
   },
   {
     key: 1,
-    src: "/src/assets/helen1.jpg",
+    src: image2,
+    // src: "/src/assets/helen1.jpg",
   },
   {
     key: 2,
-    src: "/src/assets/helen2.jpg",
+    src: image3,
+    // src: "/src/assets/helen2.jpg",
   },
   {
     key: 3,
-    src: "/src/assets/helen3.jpg",
+    src: image4,
+    // src: "/src/assets/helen3.jpg",
   },
   {
     key: 4,
-    src: "/src/assets/helen4.jpg",
+    src: image5,
+    // src: "/src/assets/helen4.jpg",
   },
 ]);
 
