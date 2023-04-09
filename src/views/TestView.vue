@@ -24,13 +24,14 @@ const imgList = ref([
   },
 ]);
 
-const curIdx = ref(null);
+// const curIdx = ref(null);
 
 const onDragStart = (e) => {
-  curIdx.value = Number(e.target.dataset.key);
+  // curIdx.value = Number(e.target.dataset.key);
 
+  // e.target.className = "invisible";
   setTimeout(() => (e.target.className = "invisible"), 0);
-  console.log("start");
+  // console.log("start");
 };
 
 const onDragEnd = (e) => {
@@ -38,10 +39,12 @@ const onDragEnd = (e) => {
 
   isSuccess.value = checkSuccess();
 
-  console.log("end");
+  // console.log("end");
 };
 
 const onDragEnter = (e) => {
+  e.preventDefault();
+
   const invisibleDom = document.querySelector(".invisible");
   const invisibleIndex = Number(invisibleDom.dataset.key);
 
@@ -57,23 +60,18 @@ const onDragEnter = (e) => {
   invisibleDom.dataset.key = enterDom.dataset.key;
   enterDom.dataset.key = tempIndex;
 
-  console.log(imgList.value);
-
-  e.preventDefault();
-  console.log("enter");
+  console.log(invisibleDom.dataset.key, enterDom.dataset.key);
 };
 
 const onDragLeave = () => {
   // e.target.className = "wrapper";
-
-  console.log("leave");
+  // console.log("leave");
 };
 
 const onDrop = () => {
   // e.target.className = "wrapper";
   // e.target.append(fill.value);
-
-  console.log("drop");
+  // console.log("drop");
 };
 
 // 檢查排序
@@ -111,8 +109,8 @@ watch(isSuccess, (newVal) => {
   </div>
 </template>
 
-<style>
-body {
+<style scoped>
+/* body {
   width: 100vw;
   height: 100vh;
   background-color: black;
@@ -122,7 +120,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .container {
   display: flex;
@@ -150,6 +148,9 @@ body {
 }
 
 .invisible {
-  display: none;
+  /* display: none; */
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 </style>
