@@ -165,19 +165,17 @@ onMounted(() => {
 
 <style scoped>
 .information {
-  width: 100%;
-  height: 12.5%;
+  height: 64px;
+
+  margin-bottom: 16px;
   background-color: yellow;
 }
 
 .gaming-zone {
-  width: 100%;
-  height: 87.5%;
-
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   background-color: blue;
 }
