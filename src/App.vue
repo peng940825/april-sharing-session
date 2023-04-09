@@ -10,6 +10,7 @@
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 #app {
@@ -17,7 +18,5 @@ body {
 
   display: flex;
   flex-direction: column;
-
-  overflow: hidden;
 }
 </style>
