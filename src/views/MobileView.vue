@@ -11,29 +11,26 @@ const data = ref([
   {
     key: 0,
     src: image1,
-    // src: "/src/assets/helen0.jpg",
   },
   {
     key: 1,
     src: image2,
-    // src: "/src/assets/helen1.jpg",
   },
   {
     key: 2,
     src: image3,
-    // src: "/src/assets/helen2.jpg",
   },
   {
     key: 3,
     src: image4,
-    // src: "/src/assets/helen3.jpg",
   },
   {
     key: 4,
     src: image5,
-    // src: "/src/assets/helen4.jpg",
   },
 ]);
+
+// ✅ data
 
 const holdRef = ref(null);
 
@@ -51,47 +48,38 @@ const diff = ref({
   y: 0,
 });
 
+const imagesPosition = ref([]);
+
+// ✅ action
+
 const setHoldData = (val) => (holdData.value = val);
 
 const setHoldPosition = (key, val) => (holdPosition.value[key] = val);
 
 const setDiff = (key, val) => (diff.value[key] = val);
 
-// const setImagePosition = (e) => {
-//   const touch = e.touches[0];
+const setImagePosition = (val) => (imagesPosition.value = val);
 
-//   const tocuhY = touch.clientY;
-//   const boundTop = e.target.getBoundingClientRect().y;
-//   const diffY = tocuhY - boundTop;
-//   const top = tocuhY - diffY;
-//   setHoldPosition("top", top);
-
-//   const touchX = touch.clientX;
-//   const boundLeft = e.target.getBoundingClientRect().x;
-//   const diffX = touchX - boundLeft;
-//   const left = touchX - diffX;
-//   setHoldPosition("left", left);
-
-//   setDiff("x", diffX);
-//   setDiff("y", diffY);
-// };
+// ✅ touch events
 
 const onTouchStart = (e) => {
+  e.target.className += " hold";
+
   const key = +e.target.dataset.key;
   setHoldData(data.value[key]);
 
   const [touch, bound] = [e.touches[0], e.target.getBoundingClientRect()];
 
   const tocuhY = touch.clientY;
-  const boundTop = bound.y;
-  const diffY = tocuhY - boundTop;
+  const boundY = bound.y;
+  const diffY = tocuhY - boundY;
   const top = tocuhY - diffY;
   setHoldPosition("top", top);
   setDiff("y", diffY);
 
   const touchX = touch.clientX;
-  const boundLeft = bound.x;
-  const diffX = touchX - boundLeft;
+  const boundX = bound.x;
+  const diffX = touchX - boundX;
   const left = touchX - diffX;
   setHoldPosition("left", left);
   setDiff("x", diffX);
@@ -109,7 +97,9 @@ const onTouchMove = (e) => {
   setHoldPosition("left", left);
 };
 
-const onTouchEnd = () => {
+const onTouchEnd = (e) => {
+  e.target.className = "image";
+
   setHoldData(null);
   setHoldPosition("top", 0);
   setHoldPosition("left", 0);
@@ -117,20 +107,59 @@ const onTouchEnd = () => {
   setDiff("x", 0);
 };
 
-onMounted(() => {
-  gamingZoneRef.value.addEventListener("touchmove", (e) => {
-    const touch = e.touches[0];
-    const [x, y] = [touch.clientX, touch.clientY];
-    console.log(x, y);
+// ✅ helper
+
+const makeImagesPositionData = () => {
+  const mapRes = data.value.map((item) => {
+    const target = document.querySelector(`[data-key="${item.key}"]`);
+    const bound = target.getBoundingClientRect();
+    return {
+      key: item.key,
+      top: bound.top,
+      bottom: bound.bottom,
+      left: bound.left,
+      right: bound.right,
+    };
   });
 
-  // console.log(
-  //   document.querySelector(`[data-key="${0}"]`).getBoundingClientRect()
-  // );
+  setImagePosition(mapRes);
+};
 
-  // console.log(
-  //   document.querySelector(`[data-key="${1}"]`).getBoundingClientRect()
-  // );
+const onDocumentTouchMove = (e) => {
+  const touch = e.touches[0];
+  const [x, y] = [touch.clientX, touch.clientY];
+
+  imagesPosition.value.forEach((item) => {
+    if (
+      y >= item.top &&
+      y <= item.bottom &&
+      x >= item.left &&
+      x <= item.right
+    ) {
+      const holdDom = document.querySelector(".hold");
+      const holdIdx = +holdDom.dataset.key;
+
+      const enterIdx = item.key;
+      const enterDom = document.querySelector(`[data-key="${enterIdx}"]`);
+
+      [data.value[holdIdx], data.value[enterIdx]] = [
+        data.value[enterIdx],
+        data.value[holdIdx],
+      ];
+
+      [[holdDom.dataset.key], [enterDom.dataset.key]] = [
+        [enterDom.dataset.key],
+        [holdDom.dataset.key],
+      ];
+    }
+  });
+};
+
+// ✅ onMounted
+
+onMounted(() => {
+  makeImagesPositionData();
+  document.addEventListener("touchmove", onDocumentTouchMove);
 });
 </script>
 
@@ -147,7 +176,7 @@ onMounted(() => {
       @touchstart="onTouchStart"
       @touchmove="onTouchMove"
       @touchend="onTouchEnd"
-      :style="{ backgroundImage: 'url(' + item.src + ')' }"
+      :style="{ backgroundImage: `url(${item.src})` }"
     ></div>
   </div>
 
@@ -156,26 +185,27 @@ onMounted(() => {
     ref="holdRef"
     class="hold-image"
     :style="{
-      top: holdPosition.top + 'px',
-      left: holdPosition.left + 'px',
-      backgroundImage: holdData ? 'url(' + holdData.src + ')' : '',
+      top: `${holdPosition.top}px`,
+      left: `${holdPosition.left}px`,
+      backgroundImage: holdData ? `url(${holdData.src})` : '',
     }"
   ></div>
 </template>
 
 <style scoped>
 .information {
-  height: 64px;
+  height: 15%;
 
-  margin-bottom: 16px;
   background-color: yellow;
 }
 
 .gaming-zone {
+  height: 85%;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 
   background-color: blue;
 }

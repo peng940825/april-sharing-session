@@ -113,13 +113,12 @@ const checkPass = () => {
 
 <style scoped>
 .information {
-  width: 100%;
   height: 12.5%;
+
   background-color: yellow;
 }
 
 .gaming-zone {
-  width: 100%;
   height: 87.5%;
 
   display: flex;
