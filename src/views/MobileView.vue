@@ -63,22 +63,22 @@ const setImagePosition = (val) => (imagesPosition.value = val);
 // ✅ touch events
 
 const onTouchStart = (e) => {
-  e.target.className += " hold";
+  const [touch, target] = [e.touches[0], e.target];
 
-  const key = +e.target.dataset.key;
+  target.className += " hold";
+
+  const key = +target.dataset.key;
   setHoldData(data.value[key]);
 
-  const [touch, bound] = [e.touches[0], e.target.getBoundingClientRect()];
-
   const tocuhY = touch.clientY;
-  const boundY = bound.y;
+  const boundY = target.getBoundingClientRect().y;
   const diffY = tocuhY - boundY;
   const top = tocuhY - diffY;
   setHoldPosition("top", top);
   setDiff("y", diffY);
 
   const touchX = touch.clientX;
-  const boundX = bound.x;
+  const boundX = target.getBoundingClientRect().x;
   const diffX = touchX - boundX;
   const left = touchX - diffX;
   setHoldPosition("left", left);

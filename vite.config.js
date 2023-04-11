@@ -6,11 +6,8 @@ import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/temp/dist",
+  base: "/temp/",
   plugins: [vue()],
-  // build: {
-  //   outDir: "docs",
-  // },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

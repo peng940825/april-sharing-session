@@ -11,27 +11,22 @@ const data = ref([
   {
     key: 0,
     src: image1,
-    // src: "/src/assets/helen0.jpg",
   },
   {
     key: 1,
     src: image2,
-    // src: "/src/assets/helen1.jpg",
   },
   {
     key: 2,
     src: image3,
-    // src: "/src/assets/helen2.jpg",
   },
   {
     key: 3,
     src: image4,
-    // src: "/src/assets/helen3.jpg",
   },
   {
     key: 4,
     src: image5,
-    // src: "/src/assets/helen4.jpg",
   },
 ]);
 
@@ -40,7 +35,7 @@ const onDragStart = (e) => {
 };
 
 const onDragEnter = (e) => {
-  e.preventDefault();
+  // e.preventDefault();
 
   const holdDom = document.querySelector(".hold");
   const holdIdx = +holdDom.dataset.key;
@@ -63,16 +58,16 @@ const onDragOver = (e) => {
   e.preventDefault();
 };
 
-const onDragLeave = () => {};
-
 const onDrop = () => {
-  console.log(data.value.map((item) => item.key));
+  console.log("pass =>", checkPass());
+  console.log(
+    "new data =>",
+    data.value.map((item) => item.key)
+  );
 };
 
 const onDragEnd = (e) => {
   e.target.className = "image";
-
-  console.log(checkPass());
 };
 
 const checkPass = () => {
@@ -89,25 +84,19 @@ const checkPass = () => {
   <div class="information"></div>
 
   <div class="gaming-zone">
-    <div v-for="item in data" :key="item.key" class="wrapper">
-      <div
-        class="image"
-        draggable="true"
-        :data-key="item.key"
-        @dragstart="onDragStart"
-        @dragenter="onDragEnter"
-        @dragover="onDragOver"
-        @drop="onDrop"
-        @dragend="onDragEnd"
-        @dragleave="onDragLeave"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
-        @touchEnd="onTouchEnd"
-        :style="{ backgroundImage: `url(${item.src})` }"
-      ></div>
-    </div>
-
-    <!-- <video src="/src/assets/video1.mp4" type="video/mp4" muted autoplay></video> -->
+    <div
+      v-for="item in data"
+      :key="item.key"
+      :data-key="item.key"
+      class="image"
+      draggable="true"
+      @dragstart="onDragStart"
+      @dragenter="onDragEnter"
+      @dragover="onDragOver"
+      @drop="onDrop"
+      @dragend="onDragEnd"
+      :style="{ backgroundImage: `url(${item.src})` }"
+    ></div>
   </div>
 </template>
 
@@ -128,29 +117,20 @@ const checkPass = () => {
   background-color: blue;
 }
 
-.wrapper {
+.image {
   width: 240px;
   height: 240px;
-  position: relative;
-  margin-right: 16px;
-}
 
-.wrapper:last-of-type {
-  margin-right: 0;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
   cursor: move;
+  margin-right: 16px;
+  border-radius: 8px;
 }
 
-video {
-  width: 95%;
-  height: 95%;
+.image:last-of-type {
+  margin-right: 0;
 }
 </style>
