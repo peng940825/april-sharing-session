@@ -1,5 +1,6 @@
 <template>
   <p>Home View</p>
+  <p>Jun</p>
 </template>
 
 <style scoped>
