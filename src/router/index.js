@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import HomeView from "@/views/HomeView.vue";
+import VideoView from "@/views/VideoView.vue";
 import DesktopView from "@/views/DesktopView.vue";
 
 const router = createRouter({
@@ -10,6 +11,11 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+    },
+    {
+      path: "/video",
+      name: "Video",
+      component: VideoView,
     },
     {
       path: "/desktop",
