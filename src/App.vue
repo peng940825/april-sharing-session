@@ -1,9 +1,14 @@
 <script setup>
 import { onMounted } from "vue";
 
-onMounted(() => {
+const setDocumentVh = () => {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
+};
+
+onMounted(() => {
+  setDocumentVh();
+  window.addEventListener("resize", setDocumentVh);
 });
 </script>
 
@@ -21,6 +26,7 @@ body {
   padding: 0;
 
   overflow: hidden;
+  background-color: #082f49;
 }
 
 #app {
