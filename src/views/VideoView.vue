@@ -4,6 +4,7 @@
       ref="videoRef"
       class="video"
       src="@/assets/video.mp4"
+      preload="auto"
       controls
     ></video>
   </div>

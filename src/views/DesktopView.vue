@@ -277,7 +277,12 @@ shuffle(data.value);
     <!-- ✅ share dom -->
 
     <div v-show="isPass" class="video-container">
-      <video ref="videoRef" class="video" src="@/assets/video.mp4"></video>
+      <video
+        ref="videoRef"
+        class="video"
+        src="@/assets/video.mp4"
+        preload="auto"
+      ></video>
     </div>
 
     <div v-show="!isPass" class="image-container">
