@@ -339,12 +339,15 @@ shuffle(data.value);
 
 .video-container,
 .image-container {
-  width: auto;
-  height: 75%;
+  width: 300px;
+  height: 540px;
+
+  /* width: auto; */
+  /* height: 75%; */
 
   display: flex;
 
-  aspect-ratio: 1 / 1.8;
+  /* aspect-ratio: 1 / 1.8; */
 }
 
 .video-container {
