@@ -143,6 +143,8 @@ const makeImagesPosition = () => {
 };
 
 const onDocumentTouchMove = (e) => {
+  if (!holdIndex.value) return;
+
   const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
 
   imagesPosition.value.forEach((item) => {
@@ -282,6 +284,7 @@ shuffle(data.value);
         class="video"
         src="@/assets/video.mp4"
         preload="auto"
+        playsinline="true"
       ></video>
     </div>
 
@@ -344,15 +347,12 @@ shuffle(data.value);
 
 .video-container,
 .image-container {
-  width: 300px;
-  height: 540px;
-
-  /* width: auto; */
-  /* height: 75%; */
+  width: auto;
+  height: 75%;
 
   display: flex;
 
-  /* aspect-ratio: 1 / 1.8; */
+  aspect-ratio: 1 / 1.8;
 }
 
 .video-container {
