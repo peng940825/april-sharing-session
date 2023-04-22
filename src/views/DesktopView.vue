@@ -272,6 +272,23 @@ const isIncreasingSequence = () => {
 };
 
 shuffle(data.value);
+
+// ✅ about video
+
+const isVideoCanPlayThrough = ref(false);
+
+const setIsVideoCanPlayThrough = (val) => {
+  isVideoCanPlayThrough.value = val;
+};
+
+const onCanPlay = () => {
+  console.log("canplay");
+};
+
+const onCanplaythrough = () => {
+  console.log("canplaythrough");
+  setIsVideoCanPlayThrough(true);
+};
 </script>
 
 <template>
@@ -285,6 +302,8 @@ shuffle(data.value);
         src="@/assets/video.mp4"
         preload="auto"
         playsinline="true"
+        @canplay="onCanPlay"
+        @canplaythrough="onCanplaythrough"
       ></video>
     </div>
 
@@ -308,7 +327,7 @@ shuffle(data.value);
     </div>
 
     <button
-      v-show="showPlayButton"
+      v-show="showPlayButton && isVideoCanPlayThrough"
       type="button"
       class="play-button"
       @click="videoRef.play"
