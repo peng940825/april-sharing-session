@@ -273,21 +273,10 @@ const isIncreasingSequence = () => {
 
 shuffle(data.value);
 
-// ✅ about video
+// ✅ video
 
-// const isVideoCanPlayThrough = ref(false);
-
-// const setIsVideoCanPlayThrough = (val) => {
-//   isVideoCanPlayThrough.value = val;
-// };
-
-const onCanPlay = () => {
-  console.log("canplay");
-};
-
-const onCanplaythrough = () => {
-  console.log("canplaythrough");
-  // setIsVideoCanPlayThrough(true);
+const playVideo = () => {
+  videoRef.value.play();
 };
 </script>
 
@@ -302,8 +291,6 @@ const onCanplaythrough = () => {
         src="https://firebasestorage.googleapis.com/v0/b/juntify-fd26d.appspot.com/o/%E6%88%91%E7%AB%99%E5%9C%A8%E9%9B%B2%E6%9E%97.mp4?alt=media&token=a452977a-07f3-4440-8214-35942f751c54"
         preload="auto"
         playsinline="true"
-        @canplay="onCanPlay"
-        @canplaythrough="onCanplaythrough"
       ></video>
     </div>
 
@@ -330,7 +317,7 @@ const onCanplaythrough = () => {
       v-show="showPlayButton"
       type="button"
       class="play-button"
-      @click="videoRef.play"
+      @click="playVideo"
     >
       點我
     </button>
