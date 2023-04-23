@@ -49,7 +49,7 @@ const setReadyCount = (val) => {
 });
 
 watch(readyCount, (newVal) => {
-  if (newVal === 11) setStep("start");
+  if (newVal === 10) setStep("start");
 });
 
 // ✅ shared data
@@ -191,10 +191,6 @@ const videoClass = ref("");
 
 const setVideoClass = (val) => {
   videoClass.value = val;
-};
-
-const onVideoReady = () => {
-  videoPlayer.on("canplay", () => ++readyCount.value);
 };
 
 const playVideo = () => {
@@ -396,7 +392,7 @@ const checkPass = async () => {
 // ✅ onMounted
 
 onMounted(() => {
-  videoPlayer = videojs(videoRef.value, options, onVideoReady);
+  videoPlayer = videojs(videoRef.value, options);
   shuffle(data.value);
 });
 </script>
