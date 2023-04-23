@@ -236,6 +236,8 @@ const makeImagesPosition = () => {
 };
 
 const onImageContainerTouchMove = (e) => {
+  if (holdIndex.value === null) return;
+
   const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
 
   imagesPosition.value.forEach((item) => {
