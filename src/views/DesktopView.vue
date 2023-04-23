@@ -101,16 +101,16 @@ const holdIndex = ref(null);
 
 const showPlayButton = ref(false);
 
+const showRestartButton = ref(false);
+
 const setStep = async (val) => {
   step.value = val;
 
   if (step.value === "in-progress") {
     await nextTick();
-    // TODO 這邊到時候要判斷是 mobile 再初始化
     makeHoldImageSize();
     makeImagesPosition();
-    // document.addEventListener("touchmove", onImageContainerTouchMove);
-    imageContainer.value.addEventListener(
+    imageContainerRef.value.addEventListener(
       "touchmove",
       onImageContainerTouchMove
     );
@@ -128,6 +128,10 @@ const setHoldIndex = (val) => {
 
 const setShowPlayButton = (val) => {
   showPlayButton.value = val;
+};
+
+const setShowRestartButton = (val) => {
+  showRestartButton.value = val;
 };
 
 // ✅ timer
@@ -175,7 +179,6 @@ const options = {
   sources: [
     {
       src: video,
-      // src: "https://firebasestorage.googleapis.com/v0/b/juntify-fd26d.appspot.com/o/%E6%88%91%E7%AB%99%E5%9C%A8%E9%9B%B2%E6%9E%97.mp4?alt=media&token=a452977a-07f3-4440-8214-35942f751c54",
       type: "video/mp4",
     },
   ],
@@ -197,11 +200,14 @@ const setVideoClass = (val) => {
 const playVideo = () => {
   setShowPlayButton(false);
   videoPlayer.play();
+  setTimeout(() => {
+    setShowRestartButton(true);
+  }, 10000);
 };
 
 // ✅ mobile data
 
-const imageContainer = ref(null);
+const imageContainerRef = ref(null);
 
 const holdData = ref(null);
 
@@ -390,6 +396,16 @@ const checkPass = async () => {
   }, 1000);
 };
 
+const restart = () => {
+  videoPlayer.load();
+  shuffle(data.value);
+  setIsPass(false);
+  setSecond(0);
+  setMillisecond(0);
+  setShowRestartButton(false);
+  startInterval();
+};
+
 // ✅ onMounted
 
 onMounted(() => {
@@ -418,7 +434,7 @@ onMounted(() => {
       <video ref="videoRef" class="video-js"></video>
     </div>
 
-    <div v-show="!isPass" ref="imageContainer" class="image-container">
+    <div v-show="!isPass" ref="imageContainerRef" class="image-container">
       <div
         v-for="(item, index) in data"
         :key="index"
@@ -444,6 +460,13 @@ onMounted(() => {
       type="click-me"
       text="Click Me!"
       @click="playVideo"
+    />
+
+    <RetroButton
+      v-show="showRestartButton"
+      type="restart"
+      text="Restart"
+      @click="restart"
     />
 
     <!-- ✅ mobile -->

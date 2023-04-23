@@ -84,4 +84,21 @@ const props = defineProps({
 .click-me:active {
   box-shadow: inset 4px 4px 0px 0px #e59400;
 }
+
+/* ✅ restart */
+
+.restart {
+  background: #3b82f6;
+  box-shadow: inset -4px -4px 0px 0px #1e40af;
+}
+
+.restart:hover,
+.restart:focus {
+  background: #3b82f6;
+  box-shadow: inset -6px -6px 0px 0px #1e40af;
+}
+
+.restart:active {
+  box-shadow: inset 4px 4px 0px 0px #1e40af;
+}
 </style>
