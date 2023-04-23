@@ -12,14 +12,13 @@ let videoPlayer = null;
 const videoRef = ref(null);
 
 const options = {
-  controls: false,
   preload: "auto",
+  controls: false,
+  playsinline: true,
   bigPlayButton: false,
   sources: [
     {
       src: video,
-      // src: "/src/assets/video.mp4",
-      // src: "https://firebasestorage.googleapis.com/v0/b/juntify-fd26d.appspot.com/o/%E6%88%91%E7%AB%99%E5%9C%A8%E9%9B%B2%E6%9E%97.mp4?alt=media&token=a452977a-07f3-4440-8214-35942f751c54",
       type: "video/mp4",
     },
   ],
