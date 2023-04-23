@@ -1,8 +1,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-// ✅ images
+import videojs from "video.js";
 
+import "video.js/dist/video-js.min.css";
+
+// ✅ media
+
+import video from "@/assets/video.mp4";
 import image1 from "@/assets/image1.jpg";
 import image2 from "@/assets/image2.jpg";
 import image3 from "@/assets/image3.jpg";
@@ -13,7 +18,7 @@ import image7 from "@/assets/image7.jpg";
 import image8 from "@/assets/image8.jpg";
 import image9 from "@/assets/image9.jpg";
 
-// ✅ share data
+// ✅ shared data
 
 const data = ref([
   {
@@ -54,8 +59,6 @@ const data = ref([
   },
 ]);
 
-const videoRef = ref(null);
-
 const isPass = ref(false);
 
 const holdIndex = ref(null);
@@ -72,6 +75,29 @@ const setHoldIndex = (val) => {
 
 const setShowPlayButton = (val) => {
   showPlayButton.value = val;
+};
+
+// ✅ video
+
+let videoPlayer = null;
+
+const videoRef = ref(null);
+
+const options = {
+  sources: [
+    {
+      src: video,
+      type: "video/mp4",
+    },
+  ],
+  preload: "auto",
+  controls: false,
+  playsinline: true,
+  bigPlayButton: false,
+};
+
+const playVideo = () => {
+  videoPlayer.play();
 };
 
 // ✅ mobile data
@@ -217,6 +243,9 @@ const onTouchEnd = () => {
 };
 
 onMounted(() => {
+  videoPlayer = videojs(videoRef.value, options);
+
+  // 這邊到時候要判斷是 mobile 再初始化
   makeHoldImageSize();
   makeImagesPosition();
   document.addEventListener("touchmove", onDocumentTouchMove);
@@ -272,26 +301,14 @@ const isIncreasingSequence = () => {
 };
 
 shuffle(data.value);
-
-// ✅ video
-
-const playVideo = () => {
-  videoRef.value.play();
-};
 </script>
 
 <template>
   <div ref="gamingZoneRef" class="gaming-zone">
-    <!-- ✅ share dom -->
+    <!-- ✅ shared dom -->
 
     <div v-show="isPass" class="video-container">
-      <video
-        ref="videoRef"
-        class="video"
-        src="https://firebasestorage.googleapis.com/v0/b/juntify-fd26d.appspot.com/o/%E6%88%91%E7%AB%99%E5%9C%A8%E9%9B%B2%E6%9E%97.mp4?alt=media&token=a452977a-07f3-4440-8214-35942f751c54"
-        preload="auto"
-        playsinline="true"
-      ></video>
+      <video ref="videoRef" class="video-js"></video>
     </div>
 
     <div v-show="!isPass" class="image-container">
@@ -340,7 +357,7 @@ const playVideo = () => {
 </template>
 
 <style scoped>
-/* ✅ share class */
+/* ✅ shared class */
 
 .gaming-zone {
   width: 100%;
@@ -366,7 +383,7 @@ const playVideo = () => {
   justify-content: center;
 }
 
-.video {
+.video-js {
   width: 100%;
   height: 100%;
 }
