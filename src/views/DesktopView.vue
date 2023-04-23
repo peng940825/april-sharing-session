@@ -197,12 +197,15 @@ const setVideoClass = (val) => {
   videoClass.value = val;
 };
 
+const onVideoReady = () => {
+  videoPlayer.on("ended", () => {
+    setShowRestartButton(true);
+  });
+};
+
 const playVideo = () => {
   setShowPlayButton(false);
   videoPlayer.play();
-  setTimeout(() => {
-    setShowRestartButton(true);
-  }, 10000);
 };
 
 // ✅ mobile data
@@ -409,7 +412,7 @@ const restart = () => {
 // ✅ onMounted
 
 onMounted(() => {
-  videoPlayer = videojs(videoRef.value, options);
+  videoPlayer = videojs(videoRef.value, options, onVideoReady);
   shuffle(data.value);
 });
 </script>
