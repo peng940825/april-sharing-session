@@ -161,11 +161,7 @@ const setVideoClass = (val) => {
 
 const showTime = () => {
   setShowPlayButton(false);
-  setVideoClass("shake-opacity shake-constant");
-  setTimeout(() => {
-    setVideoClass("");
-    videoPlayer.play();
-  }, 1000);
+  videoPlayer.play();
 };
 
 // ✅ mobile data
@@ -350,11 +346,15 @@ const isIncreasingSequence = () => {
   return data.value.map((item) => item.key).join("") === "012345678";
 };
 
-const checkPass = () => {
+const checkPass = async () => {
   if (!isIncreasingSequence()) return;
   closeInterval();
   setIsPass(true);
-  setShowPlayButton(true);
+  setVideoClass("shake-opacity shake-constant");
+  setTimeout(() => {
+    setVideoClass("");
+    setShowPlayButton(true);
+  }, 1000);
 };
 
 // ✅ onMounted
