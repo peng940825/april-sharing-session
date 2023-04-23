@@ -28,11 +28,11 @@ const prettierTime = computed(() => {
 
 <style scoped>
 p {
-  color: white;
-
   position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 24px;
+  left: 24px;
+
+  margin: 0;
+  color: #f7d51d;
 }
 </style>

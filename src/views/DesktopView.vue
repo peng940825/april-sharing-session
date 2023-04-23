@@ -12,6 +12,7 @@ import RetroButton from "@/components/RetroButton.vue";
 // ✅ media
 
 import video from "@/assets/video.mp4";
+import poster from "@/assets/poster.jpg";
 import image1 from "@/assets/image1.jpg";
 import image2 from "@/assets/image2.jpg";
 import image3 from "@/assets/image3.jpg";
@@ -71,16 +72,19 @@ const holdIndex = ref(null);
 
 const showPlayButton = ref(false);
 
-// TODO
 const setStep = async (val) => {
   step.value = val;
 
   if (step.value === "in-progress") {
     await nextTick();
-    // 這邊到時候要判斷是 mobile 再初始化
+    // TODO 這邊到時候要判斷是 mobile 再初始化
     makeHoldImageSize();
     makeImagesPosition();
-    document.addEventListener("touchmove", onDocumentTouchMove);
+    // document.addEventListener("touchmove", onImageContainerTouchMove);
+    imageContainer.value.addEventListener(
+      "touchmove",
+      onImageContainerTouchMove
+    );
     startInterval();
   }
 };
@@ -145,6 +149,7 @@ const options = {
       type: "video/mp4",
     },
   ],
+  poster,
   preload: "auto",
   controls: false,
   playsinline: true,
@@ -159,16 +164,14 @@ const setVideoClass = (val) => {
   videoClass.value = val;
 };
 
-const showTime = () => {
+const playVideo = () => {
   setShowPlayButton(false);
   videoPlayer.play();
 };
 
 // ✅ mobile data
 
-const holdRef = ref(null);
-
-const gamingZoneRef = ref(null);
+const imageContainer = ref(null);
 
 const holdData = ref(null);
 
@@ -232,9 +235,7 @@ const makeImagesPosition = () => {
   setImagePosition(mapRes);
 };
 
-const onDocumentTouchMove = (e) => {
-  if (!holdIndex.value) return;
-
+const onImageContainerTouchMove = (e) => {
   const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
 
   imagesPosition.value.forEach((item) => {
@@ -376,14 +377,12 @@ onMounted(() => {
     />
   </div>
 
-  <div v-show="step === 'in-progress'" ref="gamingZoneRef" class="gaming-zone">
-    <TimeLine :second="second" :millisecond="millisecond" />
-
+  <div v-show="step === 'in-progress'" class="gaming-zone">
     <div v-show="isPass" :class="['video-container', videoClass]">
       <video ref="videoRef" class="video-js"></video>
     </div>
 
-    <div v-show="!isPass" class="image-container">
+    <div v-show="!isPass" ref="imageContainer" class="image-container">
       <div
         v-for="(item, index) in data"
         :key="index"
@@ -402,18 +401,19 @@ onMounted(() => {
       ></div>
     </div>
 
+    <TimeLine :second="second" :millisecond="millisecond" />
+
     <RetroButton
       v-show="showPlayButton"
       type="click-me"
       text="Click Me!"
-      @click="showTime"
+      @click="playVideo"
     />
 
     <!-- ✅ mobile -->
 
     <div
       v-show="holdData"
-      ref="holdRef"
       class="hold-image"
       :style="{
         width: `${holdImageSize.width}px`,
