@@ -33,6 +33,6 @@ p {
   left: 24px;
 
   margin: 0;
-  color: #f7d51d;
+  color: white;
 }
 </style>
