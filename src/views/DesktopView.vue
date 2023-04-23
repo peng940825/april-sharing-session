@@ -11,7 +11,7 @@ import RetroButton from "@/components/RetroButton.vue";
 
 // ✅ media
 
-// import video from "@/assets/video.mp4";
+import video from "@/assets/video.mp4";
 import poster from "@/assets/poster.jpg";
 import image1 from "@/assets/image1.jpg";
 import image2 from "@/assets/image2.jpg";
@@ -174,7 +174,8 @@ let videoPlayer = null;
 const options = {
   sources: [
     {
-      src: "https://firebasestorage.googleapis.com/v0/b/juntify-fd26d.appspot.com/o/%E6%88%91%E7%AB%99%E5%9C%A8%E9%9B%B2%E6%9E%97.mp4?alt=media&token=a452977a-07f3-4440-8214-35942f751c54",
+      src: video,
+      // src: "https://firebasestorage.googleapis.com/v0/b/juntify-fd26d.appspot.com/o/%E6%88%91%E7%AB%99%E5%9C%A8%E9%9B%B2%E6%9E%97.mp4?alt=media&token=a452977a-07f3-4440-8214-35942f751c54",
       type: "video/mp4",
     },
   ],
