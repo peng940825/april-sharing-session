@@ -238,7 +238,7 @@ const onTouchEnd = () => {
   if (isIncreasingSequence()) {
     setIsPass(true);
     setShowPlayButton(true);
-    document.removeEventListener("touchmove", onDocumentTouchMove);
+    // document.removeEventListener("touchmove", onDocumentTouchMove);
   }
 };
 
