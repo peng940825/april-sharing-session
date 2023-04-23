@@ -1,5 +1,5 @@
 <script setup>
-import { ref, nextTick, onMounted } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 
 import videojs from "video.js";
 
@@ -22,6 +22,35 @@ import image6 from "@/assets/image6.jpg";
 import image7 from "@/assets/image7.jpg";
 import image8 from "@/assets/image8.jpg";
 import image9 from "@/assets/image9.jpg";
+
+// ✅ load media
+
+const readyCount = ref(0);
+
+const setReadyCount = (val) => {
+  readyCount.value = val;
+};
+
+[
+  poster,
+  image1,
+  image2,
+  image3,
+  image4,
+  image5,
+  image6,
+  image7,
+  image8,
+  image9,
+].forEach((src) => {
+  const image = new Image();
+  image.src = src;
+  image.onload = () => setReadyCount(++readyCount.value);
+});
+
+watch(readyCount, (newVal) => {
+  if (newVal === 11) setStep("start");
+});
 
 // ✅ shared data
 
@@ -64,7 +93,7 @@ const data = ref([
   },
 ]);
 
-const step = ref("start");
+const step = ref("not-ready");
 
 const isPass = ref(false);
 
@@ -162,6 +191,10 @@ const videoClass = ref("");
 
 const setVideoClass = (val) => {
   videoClass.value = val;
+};
+
+const onVideoReady = () => {
+  videoPlayer.on("canplay", () => ++readyCount.value);
 };
 
 const playVideo = () => {
@@ -363,13 +396,17 @@ const checkPass = async () => {
 // ✅ onMounted
 
 onMounted(() => {
-  videoPlayer = videojs(videoRef.value, options);
+  videoPlayer = videojs(videoRef.value, options, onVideoReady);
   shuffle(data.value);
 });
 </script>
 
 <template>
   <!-- ✅ shared -->
+
+  <div v-show="step === 'not-ready'" class="not-ready">
+    <p>Loading ...</p>
+  </div>
 
   <div v-show="step === 'start'" class="start-view">
     <RetroButton
@@ -431,9 +468,19 @@ onMounted(() => {
 <style scoped>
 /* ✅ shared */
 
-.start-view {
+.start-view,
+.not-ready {
   width: 100%;
   height: 100%;
+}
+
+.not-ready p {
+  color: white;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .gaming-zone {
