@@ -1,9 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 
 import videojs from "video.js";
 
 import "video.js/dist/video-js.min.css";
+
+import TimeLine from "@/components/TimeLine.vue";
+
+import RetroButton from "@/components/RetroButton.vue";
 
 // ✅ media
 
@@ -59,11 +63,27 @@ const data = ref([
   },
 ]);
 
+const step = ref("start");
+
 const isPass = ref(false);
 
 const holdIndex = ref(null);
 
 const showPlayButton = ref(false);
+
+// TODO
+const setStep = async (val) => {
+  step.value = val;
+
+  if (step.value === "in-progress") {
+    await nextTick();
+    // 這邊到時候要判斷是 mobile 再初始化
+    makeHoldImageSize();
+    makeImagesPosition();
+    document.addEventListener("touchmove", onDocumentTouchMove);
+    startInterval();
+  }
+};
 
 const setIsPass = (val) => {
   isPass.value = val;
@@ -77,11 +97,46 @@ const setShowPlayButton = (val) => {
   showPlayButton.value = val;
 };
 
+// ✅ timer
+
+let secondTimer = null;
+
+let millisecondTimer = null;
+
+const second = ref(0);
+
+const millisecond = ref(0);
+
+const setSecond = (val) => {
+  second.value = val;
+};
+
+const setMillisecond = (val) => {
+  millisecond.value = val;
+};
+
+const startInterval = () => {
+  secondTimer = setInterval(() => {
+    setSecond(++second.value);
+  }, 1000);
+
+  millisecondTimer = setInterval(() => {
+    if (millisecond.value >= 99) {
+      setMillisecond(0);
+    } else {
+      setMillisecond(++millisecond.value);
+    }
+  }, 10);
+};
+
+const closeInterval = () => {
+  clearInterval(secondTimer);
+  clearInterval(millisecondTimer);
+};
+
 // ✅ video
 
 let videoPlayer = null;
-
-const videoRef = ref(null);
 
 const options = {
   sources: [
@@ -96,8 +151,21 @@ const options = {
   bigPlayButton: false,
 };
 
-const playVideo = () => {
-  videoPlayer.play();
+const videoRef = ref(null);
+
+const videoClass = ref("");
+
+const setVideoClass = (val) => {
+  videoClass.value = val;
+};
+
+const showTime = () => {
+  setShowPlayButton(false);
+  setVideoClass("shake-opacity shake-constant");
+  setTimeout(() => {
+    setVideoClass("");
+    videoPlayer.play();
+  }, 1000);
 };
 
 // ✅ mobile data
@@ -234,22 +302,8 @@ const onTouchEnd = () => {
   setHoldPosition("left", 0);
   setDiff("y", 0);
   setDiff("x", 0);
-
-  if (isIncreasingSequence()) {
-    setIsPass(true);
-    setShowPlayButton(true);
-    // document.removeEventListener("touchmove", onDocumentTouchMove);
-  }
+  checkPass();
 };
-
-onMounted(() => {
-  videoPlayer = videojs(videoRef.value, options);
-
-  // 這邊到時候要判斷是 mobile 再初始化
-  makeHoldImageSize();
-  makeImagesPosition();
-  document.addEventListener("touchmove", onDocumentTouchMove);
-});
 
 // ✅ desktop data
 
@@ -273,17 +327,14 @@ const onDragOver = (e) => {
 };
 
 const onDrop = () => {
-  if (isIncreasingSequence()) {
-    setIsPass(true);
-    setShowPlayButton(true);
-  }
+  checkPass();
 };
 
 const onDragEnd = () => {
   setHoldIndex(null);
 };
 
-// ✅ functions
+// ✅ helpers
 
 const shuffle = (array) => {
   for (let index = array.length - 1; index > 0; index--) {
@@ -291,23 +342,44 @@ const shuffle = (array) => {
     [array[index], array[num]] = [array[num], array[index]];
   }
 
-  if (isIncreasingSequence()) {
-    shuffle(data.value);
-  }
+  if (!isIncreasingSequence()) return;
+  shuffle(data.value);
 };
 
 const isIncreasingSequence = () => {
   return data.value.map((item) => item.key).join("") === "012345678";
 };
 
-shuffle(data.value);
+const checkPass = () => {
+  if (!isIncreasingSequence()) return;
+  closeInterval();
+  setIsPass(true);
+  setShowPlayButton(true);
+};
+
+// ✅ onMounted
+
+onMounted(() => {
+  videoPlayer = videojs(videoRef.value, options);
+  shuffle(data.value);
+});
 </script>
 
 <template>
-  <div ref="gamingZoneRef" class="gaming-zone">
-    <!-- ✅ shared dom -->
+  <!-- ✅ shared -->
 
-    <div v-show="isPass" class="video-container">
+  <div v-show="step === 'start'" class="start-view">
+    <RetroButton
+      type="start"
+      text="Play Game"
+      @click="setStep('in-progress')"
+    />
+  </div>
+
+  <div v-show="step === 'in-progress'" ref="gamingZoneRef" class="gaming-zone">
+    <TimeLine :second="second" :millisecond="millisecond" />
+
+    <div v-show="isPass" :class="['video-container', videoClass]">
       <video ref="videoRef" class="video-js"></video>
     </div>
 
@@ -330,16 +402,14 @@ shuffle(data.value);
       ></div>
     </div>
 
-    <button
+    <RetroButton
       v-show="showPlayButton"
-      type="button"
-      class="play-button"
-      @click="playVideo"
-    >
-      點我
-    </button>
+      type="click-me"
+      text="Click Me!"
+      @click="showTime"
+    />
 
-    <!-- ✅ mobile dom -->
+    <!-- ✅ mobile -->
 
     <div
       v-show="holdData"
@@ -357,7 +427,12 @@ shuffle(data.value);
 </template>
 
 <style scoped>
-/* ✅ shared class */
+/* ✅ shared */
+
+.start-view {
+  width: 100%;
+  height: 100%;
+}
 
 .gaming-zone {
   width: 100%;
@@ -378,6 +453,8 @@ shuffle(data.value);
   aspect-ratio: 1 / 1.8;
 }
 
+/* ✅ video */
+
 .video-container {
   align-items: center;
   justify-content: center;
@@ -387,6 +464,8 @@ shuffle(data.value);
   width: 100%;
   height: 100%;
 }
+
+/* ✅ image */
 
 .image-container {
   flex-wrap: wrap;
@@ -403,13 +482,7 @@ shuffle(data.value);
   cursor: move;
 }
 
-.play-button {
-  position: absolute;
-  top: 32px;
-  left: auto;
-}
-
-/* ✅ mobile class */
+/* ✅ mobile */
 
 .hold-image {
   position: absolute;

@@ -17,8 +17,15 @@ onMounted(() => {
 </template>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 * {
   box-sizing: border-box;
+  font-family: "Press Start 2P", cursive;
+}
+
+button {
+  cursor: pointer;
 }
 
 body {
