@@ -26,7 +26,9 @@ const props = defineProps({
   transform: translate(-50%, -50%);
   padding: 20px;
   color: white;
+  cursor: pointer;
   font-size: 30px;
+  font-family: "Press Start 2P", cursive;
 }
 
 .retro-button:before,
@@ -58,14 +60,14 @@ const props = defineProps({
   box-shadow: inset -4px -4px 0px 0px #4aa52e;
 }
 
+.start:active {
+  box-shadow: inset 4px 4px 0px 0px #4aa52e;
+}
+
 .start:hover,
 .start:focus {
   background: #76c442;
   box-shadow: inset -6px -6px 0px 0px #4aa52e;
-}
-
-.start:active {
-  box-shadow: inset 4px 4px 0px 0px #4aa52e;
 }
 
 /* ✅ click me */
@@ -75,14 +77,14 @@ const props = defineProps({
   box-shadow: inset -4px -4px 0px 0px #e59400;
 }
 
+.click-me:active {
+  box-shadow: inset 4px 4px 0px 0px #e59400;
+}
+
 .click-me:hover,
 .click-me:focus {
   background: #f2c409;
   box-shadow: inset -6px -6px 0px 0px #e59400;
-}
-
-.click-me:active {
-  box-shadow: inset 4px 4px 0px 0px #e59400;
 }
 
 /* ✅ restart */
@@ -92,13 +94,13 @@ const props = defineProps({
   box-shadow: inset -4px -4px 0px 0px #1e40af;
 }
 
+.restart:active {
+  box-shadow: inset 4px 4px 0px 0px #1e40af;
+}
+
 .restart:hover,
 .restart:focus {
   background: #3b82f6;
   box-shadow: inset -6px -6px 0px 0px #1e40af;
-}
-
-.restart:active {
-  box-shadow: inset 4px 4px 0px 0px #1e40af;
 }
 </style>

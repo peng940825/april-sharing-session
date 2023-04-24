@@ -40,6 +40,7 @@ const splitTime = computed(() => {
 
 span {
   margin-right: 8px;
+  font-family: "Press Start 2P", cursive;
 }
 
 span:last-of-type {
