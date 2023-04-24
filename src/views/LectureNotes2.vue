@@ -160,7 +160,7 @@ const onDragEnd = () => {
 }
 
 .wrapper {
-  width: 16.67%;
+  width: 14.285%;
   height: 100%;
   display: flex;
   flex-direction: column;
