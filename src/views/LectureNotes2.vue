@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from "vue";
 
-import poster from "@/assets/image/poster.jpg";
-
 import LightBulbVue from "@/components/LightBulb.vue";
 
 const data = ref([
@@ -95,10 +93,8 @@ const onDragEnd = () => {
 <template>
   <div class="container">
     <div class="top">
-      <!-- <img class="image" :src="poster" /> -->
-
       <div
-        class="box"
+        class="image"
         draggable="true"
         @dragstart="onDargStart"
         @drag="onDrag"
@@ -107,14 +103,15 @@ const onDragEnd = () => {
         @dragleave="onDragLeave"
         @drop="onDrop"
         @dragend="onDragEnd"
-        :style="{ backgroundImage: `url(${poster})` }"
       ></div>
     </div>
 
     <div class="bottom">
-      <div v-for="item in data" :key="item" class="wrapper">
+      <div v-for="item in data" :key="item" class="bulb-wrapper">
         <LightBulbVue :color="item.open ? item.color : 'white'" />
-        <p>{{ item.name }}</p>
+        <p :style="{ color: item.open ? item.color : 'white' }">
+          {{ item.name }}
+        </p>
       </div>
     </div>
   </div>
@@ -126,7 +123,6 @@ const onDragEnd = () => {
 .container {
   width: 100%;
   height: 100%;
-  position: relative;
   background-color: black;
 }
 
@@ -143,34 +139,27 @@ const onDragEnd = () => {
 }
 
 .image {
-  width: 300px;
-  border-radius: 8px;
-  cursor: move;
-}
-
-.box {
-  width: 300px;
-  height: 75%;
-  background-color: cadetblue;
+  height: 90%;
+  aspect-ratio: 1 / 1.78;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 8px;
-  cursor: move;
+  background-image: url("@/assets/image/poster.jpg");
 }
 
-.wrapper {
+.bulb-wrapper {
   width: 14.285%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 p {
   color: white;
-  font-size: 64px;
+  font-size: 5vmin;
   font-family: "Acme", sans-serif;
+  margin: 0;
 }
 </style>
