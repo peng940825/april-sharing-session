@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 
 const setDocVh = () => {
-  const vh = window.innerHeight * 0.01;
+  const vh = window.innerHeight;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 };
 
@@ -29,7 +29,7 @@ body {
 
 #app {
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
+  height: var(--vh);
   position: relative;
   overflow: hidden;
 }

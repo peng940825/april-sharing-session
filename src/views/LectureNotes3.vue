@@ -202,8 +202,8 @@ const onMouseMove = (e) => {
 }
 
 .magnifier {
-  width: 480px;
-  height: 480px;
+  width: 20%;
+  aspect-ratio: 1;
   position: absolute;
   bottom: 16px;
   right: 16px;
@@ -216,7 +216,7 @@ const onMouseMove = (e) => {
 
 .magnifier-text {
   color: white;
-  font-size: 128px;
+  font-size: 10vmin;
   font-family: "Acme", sans-serif;
   margin: 0;
 }

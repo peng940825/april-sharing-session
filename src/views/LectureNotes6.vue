@@ -62,7 +62,7 @@ const onVhClick = () => {
 }
 
 .code {
-  width: 75%;
+  width: 60%;
   margin-top: 2%;
 }
 </style>
