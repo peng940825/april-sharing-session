@@ -18,22 +18,18 @@ const onVhClick = () => {
 <template>
   <div class="container">
     <div class="wrapper">
-      <img
-        class="biercty"
-        src="@/assets/demo/biercty-100vh.jpg"
-        @click="onVhClick"
-      />
+      <img class="demo" src="@/assets/demo/demo-100vh.jpg" @click="onVhClick" />
       <img class="code" src="@/assets/demo/code-100vh.png" />
     </div>
 
     <div v-show="showDemo.set" class="wrapper">
-      <img class="biercty" src="@/assets/demo/biercty-set.jpg" />
+      <img class="demo" src="@/assets/demo/demo-set.jpg" />
       <img class="code" src="@/assets/demo/code-set-1.png" />
       <img class="code" src="@/assets/demo/code-set-2.png" />
     </div>
 
     <div v-show="showDemo.dvh" class="wrapper">
-      <img class="biercty" src="@/assets/demo/biercty-100dvh.jpg" />
+      <img class="demo" src="@/assets/demo/demo-100dvh.jpg" />
       <img class="code" src="@/assets/demo/code-100dvh.png" />
     </div>
   </div>
@@ -57,7 +53,7 @@ const onVhClick = () => {
   flex-direction: column;
 }
 
-.biercty {
+.demo {
   width: 45%;
 }
 

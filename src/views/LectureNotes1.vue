@@ -1,17 +1,28 @@
+<script setup>
+import { ref } from "vue";
+
+const showGoodDemo = ref(true);
+</script>
+
 <template>
   <div class="container">
     <div class="wrapper">
       <img class="code" src="@/assets/demo/draggable.png" />
-
-      <img class="image" src="@/assets/image/poster.jpg" draggable="true" />
-      <!-- <div class="image" draggable="true"></div> -->
+      <div v-show="showGoodDemo" class="image" draggable="true"></div>
+      <img
+        v-show="!showGoodDemo"
+        class="image"
+        src="@/assets/image/poster.jpg"
+        draggable="true"
+      />
     </div>
 
     <div class="wrapper">
       <img class="code" src="@/assets/demo/noDraggable.png" />
-
       <div class="image"></div>
     </div>
+
+    <div class="organ" @click="showGoodDemo = !showGoodDemo"></div>
   </div>
 </template>
 
@@ -48,5 +59,13 @@
   background-position: center;
   background-repeat: no-repeat;
   background-image: url("@/assets/image/poster.jpg");
+}
+
+.organ {
+  width: 10%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  aspect-ratio: 1;
 }
 </style>

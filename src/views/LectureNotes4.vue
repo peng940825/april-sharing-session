@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
+const showGoodDemo = ref(true);
+
 const showHoldImage = ref(false);
 
 const diff = ref({
@@ -37,16 +39,18 @@ const onMouseDown = (e) => {
     x >= bound.left &&
     x <= bound.right
   ) {
-    const diffY = y - bound.top;
-    const top = y - diffY;
-    const diffX = x - bound.left;
-    const left = x - diffX;
-    setHoldImagePos(top, left);
-    setDiff(diffY, diffX);
-    setShowHoldImage(true);
-
-    // setHoldImagePos(y, x);
-    // setShowHoldImage(true);
+    if (showGoodDemo.value) {
+      const diffY = y - bound.top;
+      const top = y - diffY;
+      const diffX = x - bound.left;
+      const left = x - diffX;
+      setHoldImagePos(top, left);
+      setDiff(diffY, diffX);
+      setShowHoldImage(true);
+    } else {
+      setHoldImagePos(y, x);
+      setShowHoldImage(true);
+    }
   }
 };
 
@@ -54,11 +58,13 @@ const onMouseMove = (e) => {
   const [x, y] = [e.clientX, e.clientY];
 
   if (showHoldImage.value) {
-    const top = y - diff.value.top;
-    const left = x - diff.value.left;
-    setHoldImagePos(top, left);
-
-    // setHoldImagePos(y, x);
+    if (showGoodDemo.value) {
+      const top = y - diff.value.top;
+      const left = x - diff.value.left;
+      setHoldImagePos(top, left);
+    } else {
+      setHoldImagePos(y, x);
+    }
   }
 };
 
@@ -85,6 +91,8 @@ const onMouseUp = () => {
       class="hold-image"
       :style="{ top: `${holdImagePos.top}px`, left: `${holdImagePos.left}px` }"
     ></div>
+
+    <div class="organ" @click="showGoodDemo = !showGoodDemo"></div>
   </div>
 </template>
 
@@ -122,5 +130,13 @@ const onMouseUp = () => {
 .hold-image {
   position: absolute;
   background-image: url("@/assets/demo/helen.jpg");
+}
+
+.organ {
+  width: 10%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  aspect-ratio: 1;
 }
 </style>
