@@ -3,6 +3,8 @@ import { ref } from "vue";
 
 const showGoodDemo = ref(true);
 
+const showImageDemo = ref(false);
+
 const showHoldImage = ref(false);
 
 const diff = ref({
@@ -82,7 +84,7 @@ const onMouseUp = () => {
     @mousemove="onMouseMove"
     @mouseup="onMouseUp"
   >
-    <img class="omg" src="@/assets/demo/omg.jpg" />
+    <img v-show="showImageDemo" class="omg" src="@/assets/demo/omg.jpg" />
 
     <div class="image"></div>
 
@@ -92,7 +94,8 @@ const onMouseUp = () => {
       :style="{ top: `${holdImagePos.top}px`, left: `${holdImagePos.left}px` }"
     ></div>
 
-    <div class="organ" @click="showGoodDemo = !showGoodDemo"></div>
+    <div class="organ-1" @click="showGoodDemo = !showGoodDemo"></div>
+    <div class="organ-2" @click="showImageDemo = true"></div>
   </div>
 </template>
 
@@ -132,11 +135,19 @@ const onMouseUp = () => {
   background-image: url("@/assets/demo/helen.jpg");
 }
 
-.organ {
+.organ-1 {
   width: 10%;
   position: absolute;
   top: 0;
   right: 0;
+  aspect-ratio: 1;
+}
+
+.organ-2 {
+  width: 10%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   aspect-ratio: 1;
 }
 </style>
