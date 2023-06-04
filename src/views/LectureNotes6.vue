@@ -1,34 +1,17 @@
-<script setup>
-import { reactive } from "vue";
-
-const showDemo = reactive({
-  set: false,
-  dvh: false,
-});
-
-const onVhClick = () => {
-  if (!showDemo.set) {
-    showDemo.set = true;
-  } else {
-    showDemo.dvh = true;
-  }
-};
-</script>
-
 <template>
   <div class="container">
     <div class="wrapper">
-      <img class="demo" src="@/assets/demo/demo-100vh.jpg" @click="onVhClick" />
+      <img class="demo" src="@/assets/demo/demo-100vh.jpg" />
       <img class="code" src="@/assets/demo/code-100vh.png" />
     </div>
 
-    <div v-show="showDemo.set" class="wrapper">
+    <div class="wrapper">
       <img class="demo" src="@/assets/demo/demo-set.jpg" />
       <img class="code" src="@/assets/demo/code-set-1.png" />
       <img class="code" src="@/assets/demo/code-set-2.png" />
     </div>
 
-    <div v-show="showDemo.dvh" class="wrapper">
+    <div class="wrapper">
       <img class="demo" src="@/assets/demo/demo-100dvh.jpg" />
       <img class="code" src="@/assets/demo/code-100dvh.png" />
     </div>

@@ -1,10 +1,6 @@
 <script setup>
 import { ref } from "vue";
 
-const showGoodDemo = ref(true);
-
-const showImageDemo = ref(false);
-
 const showHoldImage = ref(false);
 
 const diff = ref({
@@ -41,18 +37,13 @@ const onMouseDown = (e) => {
     x >= bound.left &&
     x <= bound.right
   ) {
-    if (showGoodDemo.value) {
-      const diffY = y - bound.top;
-      const top = y - diffY;
-      const diffX = x - bound.left;
-      const left = x - diffX;
-      setHoldImagePos(top, left);
-      setDiff(diffY, diffX);
-      setShowHoldImage(true);
-    } else {
-      setHoldImagePos(y, x);
-      setShowHoldImage(true);
-    }
+    const diffY = y - bound.top;
+    const top = y - diffY;
+    const diffX = x - bound.left;
+    const left = x - diffX;
+    setHoldImagePos(top, left);
+    setDiff(diffY, diffX);
+    setShowHoldImage(true);
   }
 };
 
@@ -60,13 +51,9 @@ const onMouseMove = (e) => {
   const [x, y] = [e.clientX, e.clientY];
 
   if (showHoldImage.value) {
-    if (showGoodDemo.value) {
-      const top = y - diff.value.top;
-      const left = x - diff.value.left;
-      setHoldImagePos(top, left);
-    } else {
-      setHoldImagePos(y, x);
-    }
+    const top = y - diff.value.top;
+    const left = x - diff.value.left;
+    setHoldImagePos(top, left);
   }
 };
 
@@ -84,7 +71,7 @@ const onMouseUp = () => {
     @mousemove="onMouseMove"
     @mouseup="onMouseUp"
   >
-    <img v-show="showImageDemo" class="omg" src="@/assets/demo/omg.jpg" />
+    <img class="omg" src="@/assets/demo/omg.jpg" />
 
     <div class="image"></div>
 
@@ -93,9 +80,6 @@ const onMouseUp = () => {
       class="hold-image"
       :style="{ top: `${holdImagePos.top}px`, left: `${holdImagePos.left}px` }"
     ></div>
-
-    <div class="organ-1" @click="showGoodDemo = !showGoodDemo"></div>
-    <div class="organ-2" @click="showImageDemo = true"></div>
   </div>
 </template>
 
@@ -133,21 +117,5 @@ const onMouseUp = () => {
 .hold-image {
   position: absolute;
   background-image: url("@/assets/demo/helen.jpg");
-}
-
-.organ-1 {
-  width: 10%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  aspect-ratio: 1;
-}
-
-.organ-2 {
-  width: 10%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  aspect-ratio: 1;
 }
 </style>

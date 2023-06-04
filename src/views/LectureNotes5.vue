@@ -1,9 +1,7 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 
 const list = ["123", "132", "213", "231", "312", "321"];
-
-const showWrapper2 = ref(false);
 
 const count = reactive({
   sort: {
@@ -31,10 +29,6 @@ const runTime = reactive({
 
 const setRunTime = (key, val) => {
   runTime[key] = val;
-};
-
-const setShowWrapper2 = (val) => {
-  showWrapper2.value = val;
 };
 
 const sortShuffle = (arr) => arr.sort(() => Math.random() - 0.5);
@@ -68,7 +62,7 @@ const shuffle = (type) => {
 <template>
   <div class="container">
     <div class="wrapper">
-      <img src="@/assets/demo/sortShuffle.png" @click="setShowWrapper2(true)" />
+      <img src="@/assets/demo/sortShuffle.png" />
       <p>Sort</p>
       <p>Time ➡️ {{ runTime["sort"] }}ms</p>
       <div v-for="(item, index) in list" :key="index">
@@ -77,7 +71,7 @@ const shuffle = (type) => {
       <p class="rocket" @click="shuffle('sort')">🚀</p>
     </div>
 
-    <div v-show="showWrapper2" class="wrapper">
+    <div class="wrapper">
       <img src="@/assets/demo/fisherYatesShuffle.png" />
       <p>Fisher-Yates</p>
       <p>Time ➡️ {{ runTime["fisherYates"] }}ms</p>
